@@ -47,19 +47,20 @@ class UsersController extends Controller
              'email'=>$request->email,
             'password'=>bcrypt($request->password),
          ]);
-         $this->sendEmailConfirmationTo($user);
-         session()->flash('success','激活邮件已发送到你的邮箱请注意查收');
-         return redirect('/');
+           $this->sendEmailConfirmationTo($user);
+           session()->flash('success','激活邮件,已发送到你的邮箱请注意查收');
+           return redirect('/');
+
     }
 
     protected function sendEmailConfirmationTo($user)
     {
         $view = 'emails.confirm';
         $data = compact('user');
-        $to   =$user->email;
-        $subject = '感谢注册 Weibo 应用！请确认你的邮箱';
+        $to = $user->email;
+        $subject = "感谢注册 Weibo 应用！请确认你的邮箱。";
 
-        Mail::send($view,$data,function ($message) use ($to,$subject){
+        Mail::send($view, $data, function ($message) use ($to, $subject) {
             $message->to($to)->subject($subject);
         });
     }
