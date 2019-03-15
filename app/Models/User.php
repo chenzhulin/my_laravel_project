@@ -79,21 +79,21 @@ class User extends Authenticatable
     //关注
     public function follow($user_ids)
     {
-        if (! is_array($user_ids)){
+        if ( ! is_array($user_ids)) {
             $user_ids = compact('user_ids');
         }
-        $this->followers()->sync('user_ids',false);
+        $this->followings()->sync($user_ids, false);
     }
 
     //取消关注
     public function unfollow($user_ids)
     {
-        if (! is_array($user_ids)){
+        if ( ! is_array($user_ids)) {
             $user_ids = compact('user_ids');
         }
-        $this->followings()->detach();
+        $this->followings()->detach($user_ids);
     }
-
+    //是否关注
     public function isFollowing($user_id)
     {
         return $this->followings()->contains($user_id);
