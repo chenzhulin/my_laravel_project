@@ -64,16 +64,15 @@ class User extends Authenticatable
                 ->orderBy('created_at','desc');
     }
 
-    //粉丝列表
+    //粉丝
     public function followers()
     {
-        return $this->belongsToMany(User::class,'followers','user_id','follower_id');
+        return $this->belongsToMany(User::Class, 'followers', 'user_id', 'follower_id');
     }
-
-    //关注人列表
+    //关注
     public function followings()
     {
-        return $this->belongsToMany(User::class,'followers','follower_id','user_id');
+        return $this->belongsToMany(User::Class, 'followers', 'follower_id', 'user_id');
     }
 
     //关注
@@ -96,6 +95,16 @@ class User extends Authenticatable
     //是否关注
     public function isFollowing($user_id)
     {
-        return $this->followings()->contains($user_id);
+       /*
+        *
+        * 注：$this->>followings;返回的是一个 Collection  集合
+        * 相当于
+        * $this->followings()->get();
+        *----------------------------------
+        * $this->>followings();返回的是一个HasMany对象
+        *
+        *  */
+        return $this->followings->contains($user_id);
+
     }
 }
